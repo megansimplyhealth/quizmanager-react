@@ -41,7 +41,7 @@ export default function Home() {
 
       <div className="flex gap-2">
         <a href="/quiz">Quiz</a>
-        <a href="/admin">Admin</a>
+        <a>Admin</a>
       </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
