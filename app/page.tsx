@@ -1,6 +1,105 @@
+'use client'; // when client side use
 import Image from "next/image";
+import axios from 'axios';
+import { useState, useEffect, Component } from "react";
+import { errorMonitor } from "events";
 
-export default function Home() {
+
+export default function Home(this: any) {
+
+  // const axios = require('axios').default;
+  // const axiosClient = axios.create({
+  //   baseURL: `https://api.example.com`,
+  //   headers: {
+  //     'Accept': 'application/json',
+  //     'Content-Type': 'application/json'
+  //   }
+  // });
+
+//   const apiUrl = 'http://localhost:5054/Questions';
+
+  
+// import axios from 'axios';
+
+const MyComponent = () => {
+  const [data, setData] = useState(null);
+  const apiUrl = 'http://localhost:5054/Questions';
+
+  useEffect(() => {
+    axios.get(apiUrl)
+      .then(response => {
+        // Handle the response data here
+        setData(response.data);
+        alert(response.data);
+      })
+      .catch(error => {
+        // Handle any errors
+        console.error('Error fetching data from the API:', error);
+        alert("error"+error);
+      });
+  }, []);
+
+  return (
+    <div>
+      {data ? (
+        <pre>Data from the API: {JSON.stringify(data, null, 2)}</pre>
+      ) : (
+        <p>Loading data...</p>
+      )}
+    </div>
+  );
+};
+  
+
+  // function sayHello() {
+  //   alert('Hello!');
+  //   //axios.get(apiUrl)
+  // .then(response => {
+  //   // Handle the response data here
+  //   console.log('Data from the API:', response.data);
+  //   alert('Data from the API:' + response.data);
+  //   // You can set the data to your component state or use it as needed
+  // })
+  // .catch(error => {
+  //   // Handle any errors
+  //   console.error('Error fetching data from the API:', error);
+  //   alert(error);
+  // });
+
+  // }
+
+  // function MyComponent() {
+  //   const [data, setData] = useState(null);
+  //   //const apiUrl = 'https://api.example.com/data';
+  
+  //   useEffect(() => {
+  //     axios.get(apiUrl)
+  //       .then(response => {
+  //         // Handle the response data here
+  //         setData(response.data);
+  //       })
+  //       .catch(error => {
+  //         // Handle any errors
+  //         console.error('Error fetching data from the API:', error);
+  //       });
+  //   }, []);
+  
+  //   return (
+  //     <div>
+  //       {/* Render your component content here */}
+  //       {data && (
+  //         <pre>{JSON.stringify(data, null, 2)}</pre>
+  //       )}
+  //     </div>
+  //   );
+  // }
+  
+
+
+
+
+
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -41,7 +140,9 @@ export default function Home() {
 
       <div className="flex gap-2">
         <a href="/quiz">Quiz</a>
-        <a>Admin</a>
+        <button onClick={() => MyComponent()}>
+          Click me!
+        </button>
       </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
