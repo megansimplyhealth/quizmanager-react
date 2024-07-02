@@ -1,104 +1,46 @@
 'use client'; // when client side use
 import Image from "next/image";
+
+//import React, {useState} from 'react';
 import axios from 'axios';
-import { useState, useEffect, Component } from "react";
-import { errorMonitor } from "events";
+import React, { useState } from 'react';
+//import { errorMonitor } from "events";
 
 
-export default function Home(this: any) {
 
-  // const axios = require('axios').default;
-  // const axiosClient = axios.create({
-  //   baseURL: `https://api.example.com`,
-  //   headers: {
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/json'
-  //   }
-  // });
 
-//   const apiUrl = 'http://localhost:5054/Questions';
 
+export default function Home() {
+
+  type Question = {
+    questionId: number;
+    questionText: string;
+    answerOne: string;
+    answerTwo: string;
+    answerThree: string;
+    answerFour: string;
+  };
+
+  const [data, setData] = useState<Question[] | null>(null); // Explicitly set the type
+
+  const fetchData = async () => {
+    try {
+      // Define the API URL
+      const apiUrl = 'http://localhost:5054/Questions'; 
   
-// import axios from 'axios';
-
-const MyComponent = () => {
-  const [data, setData] = useState(null);
-  const apiUrl = 'http://localhost:5054/Questions';
-
-  useEffect(() => {
-    axios.get(apiUrl)
-      .then(response => {
-        // Handle the response data here
-        setData(response.data);
-        alert(response.data);
-      })
-      .catch(error => {
-        // Handle any errors
-        console.error('Error fetching data from the API:', error);
-        alert("error"+error);
-      });
-  }, []);
-
-  return (
-    <div>
-      {data ? (
-        <pre>Data from the API: {JSON.stringify(data, null, 2)}</pre>
-      ) : (
-        <p>Loading data...</p>
-      )}
-    </div>
-  );
-};
+      const response = await axios.get(apiUrl);//, { withCredentials: true });
   
-
-  // function sayHello() {
-  //   alert('Hello!');
-  //   //axios.get(apiUrl)
-  // .then(response => {
-  //   // Handle the response data here
-  //   console.log('Data from the API:', response.data);
-  //   alert('Data from the API:' + response.data);
-  //   // You can set the data to your component state or use it as needed
-  // })
-  // .catch(error => {
-  //   // Handle any errors
-  //   console.error('Error fetching data from the API:', error);
-  //   alert(error);
-  // });
-
-  // }
-
-  // function MyComponent() {
-  //   const [data, setData] = useState(null);
-  //   //const apiUrl = 'https://api.example.com/data';
+      setData(response.data); // Set the fetched data
+      alert("Data fetched successfully!");
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      alert("Error fetching data: " + error);
+    }
+  };
   
-  //   useEffect(() => {
-  //     axios.get(apiUrl)
-  //       .then(response => {
-  //         // Handle the response data here
-  //         setData(response.data);
-  //       })
-  //       .catch(error => {
-  //         // Handle any errors
-  //         console.error('Error fetching data from the API:', error);
-  //       });
-  //   }, []);
-  
-  //   return (
-  //     <div>
-  //       {/* Render your component content here */}
-  //       {data && (
-  //         <pre>{JSON.stringify(data, null, 2)}</pre>
-  //       )}
-  //     </div>
-  //   );
-  // }
-  
-
-
-
-
-
+  const handleButtonClick = () => {
+    fetchData(); // Call fetchData when the button is clicked
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -138,12 +80,19 @@ const MyComponent = () => {
         />
       </div>
 
-      <div className="flex gap-2">
-        <a href="/quiz">Quiz</a>
-        <button onClick={() => MyComponent()}>
-          Click me!
-        </button>
-      </div>
+      <div>
+      <button onClick={handleButtonClick}>Fetch Data</button>
+      {data && (
+        <div>
+          <h2>Questions:</h2>
+          <ul>
+            {data.map((question) => (
+              <li key={question.questionId}>{question.questionText}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
         <a
