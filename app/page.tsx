@@ -1,10 +1,7 @@
 'use client'; // when client side use
 import Image from "next/image";
-
-//import React, {useState} from 'react';
 import axios from 'axios';
 import React, { useState } from 'react';
-//import { errorMonitor } from "events";
 
 
 
@@ -21,25 +18,48 @@ export default function Home() {
     answerFour: string;
   };
 
-  const [data, setData] = useState<Question[] | null>(null); // Explicitly set the type
+  // const [data, setData] = useState<Question[] | null>(null); // Explicitly set the type
+  
+  const axios = require('axios');
 
   const fetchData = async () => {
-    try {
-      // Define the API URL
-      const apiUrl = 'http://localhost:5054/Questions'; 
-  
-      const response = await axios.get(apiUrl);//, { withCredentials: true });
-  
-      setData(response.data); // Set the fetched data
-      alert("Data fetched successfully!");
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      alert("Error fetching data: " + error);
-    }
-  };
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:5054/Questions',
+      headers: { 
+        // 'Access-Control-Allow-Origin': 'http://localhost:3000',
+        // 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        // 'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization',
+      }
+    };
+    
+    axios.request(config)
+        .then((response: { data: any }) => {
+            console.log(JSON.stringify(response.data));
+            alert("Data fetched successfully!: " + response.data);
+        })
+        .catch((error: any) => {
+            console.log(error);
+            alert("Error fetching data: " + error);
+        });
+        
+};
+
+// const listQuestions = async () => {
+//     try {
+//         const res = await axios.get('http://localhost:5054/Questions');
+//         console.log(res.data.data);
+//         alert("Data fetched successfully!: " + res.data.data);
+//     } catch (err) {
+//         console.error(err);
+//         alert("Error fetching data: " + err);
+//     }
+// };
   
   const handleButtonClick = () => {
     fetchData(); // Call fetchData when the button is clicked
+    //listQuestions();
   };
 
   return (
@@ -82,7 +102,7 @@ export default function Home() {
 
       <div>
       <button onClick={handleButtonClick}>Fetch Data</button>
-      {data && (
+      {/* {data && (
         <div>
           <h2>Questions:</h2>
           <ul>
@@ -91,7 +111,7 @@ export default function Home() {
             ))}
           </ul>
         </div>
-      )}
+      )} */}
     </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
