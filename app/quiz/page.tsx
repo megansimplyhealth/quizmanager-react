@@ -11,6 +11,7 @@ export default function Quiz() {
     answerTwo: string;
     answerThree: string;
     answerFour: string;
+    correctAnswer: number;
   };
 
   const [index, setIndex] = useState(0);
@@ -21,6 +22,7 @@ export default function Quiz() {
     answer3: "Answer Three",
     answer4: "Answer Four"
   });
+  const [correctAnswer, setCorrectAnswer] = useState(0);
   
   const axios = require('axios');
 
@@ -48,12 +50,13 @@ const updateQuestion = async (index: number) => {
         answer4: responseData.answerFour
       });
     setIndex(index + 1);
+    setCorrectAnswer(responseData.correctAnswer);
 
     //alert("Works!: " + " " + questText + " " + answers.answer1 + " " + answers.answer2 + " " + answers.answer3 + " " + answers.answer4);
 
   } catch (error) {
     if (error == "TypeError: Cannot read properties of undefined (reading 'questionText')") {
-      alert("No more questions! Click Next to Reset");
+      alert("No more questions 😒 Please Replay!");
       setIndex(0);
       return;
     } else {
@@ -63,6 +66,18 @@ const updateQuestion = async (index: number) => {
   }
 };
 
+const verifyAnswer = async (answer : number) => {
+  if (answer == correctAnswer) {
+    alert("Correct!");
+    updateQuestion(index);
+  } else if (answer == 0) {
+    alert("ERROR HAS OCCURED");
+  } else {
+    alert("Incorrect!");
+  }    
+  }
+
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       
@@ -71,30 +86,43 @@ const updateQuestion = async (index: number) => {
       </div>
 
       <div className="flex gap-2">
+      {index !== 0 && (
         <h2 className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-3xl dark:text-white">{question}</h2>
+      )}
       </div>
 
       <div className="flex gap-2">
-        <button onClick={() => updateQuestion(index)}>NEXT</button>
+      {index == 0 && (
+        <button className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-green-600 md:text-3xl lg:text-3xl dark:text-white" onClick={() => updateQuestion(index)}>START</button>
+      )}
       </div>
+      
 
       <div className="flex gap-10">
+      {index !== 0 && (
 
-      <button className="py-10 px-10 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+      <><button onClick={() => verifyAnswer(1)} className="py-10 px-10 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
             {answers.answer1}
-            </button>
-            <button className="py-10 px-10 bg-transparent hover:bg-pink-500 text-pink-700 font-semibold hover:text-white py-2 px-4 border border-pink-500 hover:border-transparent rounded">
-            {answers.answer2}
-            </button>
+          </button><button onClick={() => verifyAnswer(2)} className="py-10 px-10 bg-transparent hover:bg-pink-500 text-pink-700 font-semibold hover:text-white py-2 px-4 border border-pink-500 hover:border-transparent rounded">
+              {answers.answer2}
+            </button></>
+      )}
       </div>
 
       <div className="flex gap-10">
-            <button className="py-10 px-10 bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded">
-            {answers.answer3} 
-            </button>
-            <button className="py-10 px-10 bg-transparent hover:bg-purple-500 text-purple-700 font-semibold hover:text-white py-2 px-4 border border-purple-500 hover:border-transparent rounded">
-            {answers.answer4} 
-            </button>
+      {index !== 0 && (
+            <><button onClick={() => verifyAnswer(3)} className="py-10 px-10 bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded">
+            {answers.answer3}
+          </button><button onClick={() => verifyAnswer(4)} className="py-10 px-10 bg-transparent hover:bg-purple-500 text-purple-700 font-semibold hover:text-white py-2 px-4 border border-purple-500 hover:border-transparent rounded">
+              {answers.answer4}
+            </button></>
+      )}
+      </div>
+
+      <div className="flex gap-10">
+      
+      <a href='http://localhost:3000/' className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-red-600 md:text-3xl lg:text-3xl dark:text-white">BACK</a>
+      
       </div>
 
       
