@@ -18,7 +18,13 @@ export default function Home() {
     answerFour: string;
   };
 
-  // const [data, setData] = useState<Question[] | null>(null); // Explicitly set the type
+  function getQuestionText(quest: Question) {
+    return "Question: " + quest.questionText;
+  }
+
+  function getQuestion(quest: Question) {
+    return "Question Id: " + quest.questionId + "Question: " + quest.questionText + "Answer 1: " + quest.answerOne + "Answer 2: " + quest.answerTwo + "Answer 3: " + quest.answerThree + "Answer 4: " + quest.answerFour;
+  }
   
   const axios = require('axios');
 
@@ -34,16 +40,21 @@ export default function Home() {
       }
     };
     
-    axios.request(config)
-        .then((response: { data: any }) => {
-            console.log(JSON.stringify(response.data));
-            alert("Data fetched successfully!: " + response.data);
-        })
-        .catch((error: any) => {
-            console.log(error);
-            alert("Error fetching data: " + error);
-        });
-        
+    try{
+      const response = await axios.request(config);
+      console.log(JSON.stringify(response.data));
+      //console.log(mappedData);
+      
+      //return mappedData;
+      var questText = getQuestion(response.data[0]);
+      console.log(questText);
+
+      alert("Data fetched successfully!: " + " " + questText); //+ JSON.stringify(response.data) + " " + questText);
+
+    } catch (error) {
+      console.log(error);
+      alert("Error fetching data: " + error);
+    }
 };
 
 // const listQuestions = async () => {
@@ -101,17 +112,9 @@ export default function Home() {
       </div>
 
       <div>
-      <button onClick={handleButtonClick}>Fetch Data</button>
-      {/* {data && (
-        <div>
-          <h2>Questions:</h2>
-          <ul>
-            {data.map((question) => (
-              <li key={question.questionId}>{question.questionText}</li>
-            ))}
-          </ul>
-        </div>
-      )} */}
+      {/* <button onClick={handleButtonClick}>Fetch Data</button> */}
+      <a href="/quiz"> Click to Play Quiz </a>
+
     </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
