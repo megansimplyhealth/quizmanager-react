@@ -101,9 +101,9 @@ const verifyAnswer = async (answer : number) => {
       <div className="flex gap-10">
       {index !== 0 && (
 
-      <><button onClick={() => verifyAnswer(1)} className="py-10 px-10 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+      <><button onClick={() => verifyAnswer(1)} className="w-1/2 h-full py-10 px-10 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
             {answers.answer1}
-          </button><button onClick={() => verifyAnswer(2)} className="py-10 px-10 bg-transparent hover:bg-pink-500 text-pink-700 font-semibold hover:text-white py-2 px-4 border border-pink-500 hover:border-transparent rounded">
+          </button><button onClick={() => verifyAnswer(2)} className="w-1/2 h-full py-10 px-10 bg-transparent hover:bg-pink-500 text-pink-700 font-semibold hover:text-white py-2 px-4 border border-pink-500 hover:border-transparent rounded">
               {answers.answer2}
             </button></>
       )}
@@ -111,9 +111,9 @@ const verifyAnswer = async (answer : number) => {
 
       <div className="flex gap-10">
       {index !== 0 && (
-            <><button onClick={() => verifyAnswer(3)} className="py-10 px-10 bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded">
+            <><button onClick={() => verifyAnswer(3)} className="w-1/2 h-full py-10 px-10 bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded">
             {answers.answer3}
-          </button><button onClick={() => verifyAnswer(4)} className="py-10 px-10 bg-transparent hover:bg-purple-500 text-purple-700 font-semibold hover:text-white py-2 px-4 border border-purple-500 hover:border-transparent rounded">
+          </button><button onClick={() => verifyAnswer(4)} className="w-1/2 h-full py-10 px-10 bg-transparent hover:bg-purple-500 text-purple-700 font-semibold hover:text-white py-2 px-4 border border-purple-500 hover:border-transparent rounded">
               {answers.answer4}
             </button></>
       )}

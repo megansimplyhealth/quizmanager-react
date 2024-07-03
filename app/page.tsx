@@ -1,6 +1,4 @@
 'use client'; // when client side use
-import Image from "next/image";
-import axios from 'axios';
 import React, { useState } from 'react';
 
 
@@ -23,7 +21,7 @@ export default function Home() {
       </div>
 
       <div className="flex gap-10">
-      <a className="py-10 px-10 bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded">
+      <a href="/create" className="py-10 px-10 bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded">
             Create Questions
           </a>
       </div>
