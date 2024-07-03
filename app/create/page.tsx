@@ -2,7 +2,7 @@
 'use client'; // when client side use
 import React, { useEffect, useState } from 'react';
 import {Input, Button, CheckboxGroup, Checkbox} from '@nextui-org/react'
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 
 
@@ -61,7 +61,7 @@ export default function Create() {
             method: 'post',
             maxBodyLength: Infinity,
             url: 'http://localhost:5054/Questions',
-            headers: { },
+            headers: {'Content-Type':'application/json','charset': 'utf-8'},
             data : JSON.stringify({
                 questionText: questionText,
                 answerOne: answerOne,
@@ -85,6 +85,7 @@ export default function Create() {
         })
         .catch((error: any) => {
             console.log(error);
+            console.log(AxiosError);
         });
 
         } else {
