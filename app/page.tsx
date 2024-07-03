@@ -1,6 +1,78 @@
+'use client'; // when client side use
 import Image from "next/image";
+import axios from 'axios';
+import React, { useState } from 'react';
+
+
+
+
 
 export default function Home() {
+
+  type Question = {
+    questionId: number;
+    questionText: string;
+    answerOne: string;
+    answerTwo: string;
+    answerThree: string;
+    answerFour: string;
+  };
+
+  function getQuestionText(quest: Question) {
+    return "Question: " + quest.questionText;
+  }
+
+  function getQuestion(quest: Question) {
+    return "Question Id: " + quest.questionId + "Question: " + quest.questionText + "Answer 1: " + quest.answerOne + "Answer 2: " + quest.answerTwo + "Answer 3: " + quest.answerThree + "Answer 4: " + quest.answerFour;
+  }
+  
+  const axios = require('axios');
+
+  const fetchData = async () => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:5054/Questions',
+      headers: { 
+        // 'Access-Control-Allow-Origin': 'http://localhost:3000',
+        // 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        // 'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization',
+      }
+    };
+    
+    try{
+      const response = await axios.request(config);
+      console.log(JSON.stringify(response.data));
+      //console.log(mappedData);
+      
+      //return mappedData;
+      var questText = getQuestion(response.data[0]);
+      console.log(questText);
+
+      alert("Data fetched successfully!: " + " " + questText); //+ JSON.stringify(response.data) + " " + questText);
+
+    } catch (error) {
+      console.log(error);
+      alert("Error fetching data: " + error);
+    }
+};
+
+// const listQuestions = async () => {
+//     try {
+//         const res = await axios.get('http://localhost:5054/Questions');
+//         console.log(res.data.data);
+//         alert("Data fetched successfully!: " + res.data.data);
+//     } catch (err) {
+//         console.error(err);
+//         alert("Error fetching data: " + err);
+//     }
+// };
+  
+  const handleButtonClick = () => {
+    fetchData(); // Call fetchData when the button is clicked
+    //listQuestions();
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -38,6 +110,12 @@ export default function Home() {
           priority
         />
       </div>
+
+      <div>
+      {/* <button onClick={handleButtonClick}>Fetch Data</button> */}
+      <a href="/quiz"> Click to Play Quiz </a>
+
+    </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
         <a
