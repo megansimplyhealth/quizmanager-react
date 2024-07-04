@@ -1,18 +1,9 @@
 'use client'; // when client side use
 import React, { useState } from 'react';
-import axios from 'axios';
+import {Input} from '@nextui-org/react'
+import axios, { AxiosError } from 'axios';
 
 export default function Quiz() {
-
-  type Question = {
-    questionId: number;
-    questionText: string;
-    answerOne: string;
-    answerTwo: string;
-    answerThree: string;
-    answerFour: string;
-    correctAnswer: number;
-  };
 
   const [index, setIndex] = useState(0);
   const [question, setQuestion] = useState("Question Text");
@@ -23,6 +14,13 @@ export default function Quiz() {
     answer4: "Answer Four"
   });
   const [correctAnswer, setCorrectAnswer] = useState(0);
+  const [score, setScore] = useState(0);
+  const [name, setName] = useState("");
+  //const [start, setStart] = useState(false);
+  const [startClick, setStartClick] = useState(false);
+  let newDate = new Date();
+  var date = newDate.getDate() + "/" + (newDate.getMonth() + 1) + "/" + newDate.getFullYear();
+  var time = newDate.getHours() + ":" + newDate.getMinutes();
   
   const axios = require('axios');
 
@@ -56,8 +54,7 @@ const updateQuestion = async (index: number) => {
 
   } catch (error) {
     if (error == "TypeError: Cannot read properties of undefined (reading 'questionText')") {
-      alert("No more questions 😒 Please Replay!");
-      setIndex(0);
+      sendResponse();
       return;
     } else {
     console.log(error);
@@ -68,13 +65,60 @@ const updateQuestion = async (index: number) => {
 
 const verifyAnswer = async (answer : number) => {
   if (answer == correctAnswer) {
-    alert("Correct!");
+    await setScore(score + 5);
+    let show = score + 5;
+    alert("Correct 5 points to Griffindoor! You got " + show + " points!");
+    setScore(score + 5);
     updateQuestion(index);
   } else if (answer == 0) {
     alert("ERROR HAS OCCURED");
   } else {
-    alert("Incorrect!");
+    await setScore(score - 3);
+    let show = score - 3;
+    alert("Ooops Incorrect, you lose 3 points, try again! You got " + show + " points!");
+    setScore(score - 3);
   }    
+  }
+  const nameChanged = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  }
+
+  const startClicked = async () => {
+    setStartClick(true);
+  }
+
+  const sendResponse = async () => {
+    const axios = require('axios');
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:5054/Responses',
+      headers: {'Content-Type':'application/json','charset': 'utf-8'},
+      data : JSON.stringify({
+          responseName : name,
+          responseDate : date,
+          responseTime : time,
+          responseScore : score
+      })
+    };
+  axios.request(config)
+  .then(() => {
+      console.log(JSON.stringify({
+        responseName : name,
+        responseDate : date,
+        responseTime : time,
+        responseScore : score
+          }));
+  })
+  .catch((error: any) => {
+      console.log(error);
+      console.log(AxiosError);
+  });
+  alert("Welldone Your Score Is: " + score + " Thank you" + " " + name + " for playing," + " " + "Have a nice day!");
+  setName("");
+  setScore(0);
+  setIndex(0);
+  setStartClick(false);
   }
 
 
@@ -92,14 +136,31 @@ const verifyAnswer = async (answer : number) => {
       </div>
 
       <div className="flex gap-2">
-      {index == 0 && (
-        <button className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-green-600 md:text-3xl lg:text-3xl dark:text-white" onClick={() => updateQuestion(index)}>START</button>
+      {(index == 0 && startClick === false) && (
+        <button className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-green-600 md:text-3xl lg:text-3xl dark:text-white" onClick={() => startClicked()}>START</button>
+      )}
+      {(index == 0 && startClick === true) && (
+        <Input
+        isRequired
+        key="name"
+        type="text"
+        label="Please Type Your Name"
+        placeholder="Your Name"
+        value={name}
+        onChange={nameChanged}
+        className="w-full"
+        />
       )}
       </div>
-      
+      <div className="flex gap-2">
+      {(index == 0 && startClick === true) && (
+      <button className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-green-600 md:text-3xl lg:text-3xl dark:text-white" onClick={() => {
+        if(name.length > 0) {updateQuestion(index)} else {alert("Please enter your name")};}}>PLAY</button>
+    )}
+      </div>
 
       <div className="flex gap-10">
-      {index !== 0 && (
+      {(index !== 0) && (
 
       <><button onClick={() => verifyAnswer(1)} className="w-1/2 h-full py-10 px-10 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
             {answers.answer1}
@@ -110,7 +171,7 @@ const verifyAnswer = async (answer : number) => {
       </div>
 
       <div className="flex gap-10">
-      {index == 0 && (
+      {(index == 0 && startClick === false) && (
       <a href='/leaderboard' className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-orange-600 md:text-3xl lg:text-3xl dark:text-white">LEADERBOARD</a>
       )}
       </div>

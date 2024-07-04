@@ -1,33 +1,60 @@
 'use client'; // when client side use
-// import React, { useState } from 'react';
-// import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue} from "@nextui-org/react";
 
 export default function Quiz() {
 
-  const rows = [ //to get from api dynamically
+  const [index, setIndex] = useState(1);
+  const [rows, setRows] = useState([
     {
-      key: "1",
-      name: "Megan",
-      date: "01/01/2000",
-      time: "16:00",
-      score: 10,
-    },
-    {
-      key: "2",
-      name: "Barry",
-      date: "01/01/2024",
-      time: "12:00",
-      score: 15,
-    },
-    {
-      key: "3",
+      key: 0,
       name: "Baz",
-      date: "01/07/2024",
+      date: "1/7/2024",
       time: "15:00",
       score: 1,
     },
-  ];
+  ]);
+
+  const updateLeaderboard = async () => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:5054/Responses',
+      headers: { 
+      }
+    };
+    //alert("Works!");
+    try{
+      const response = await axios.request(config);
+      console.log(response.data);   
+      console.log(response.data.length);   
+        for(let i = 0; i <= response.data.length; i++) {
+          let responseFormat = {
+            key : index,
+            name: response.data[i].responseName,
+            date: response.data[i].responseDate,
+            time: response.data[i].responseTime,
+            score: response.data[i].responseScore
+          }
+          setIndex(index + 1);
+          setRows(rows => [...rows, responseFormat]);
+          console.log(responseFormat);
+        }        
+      //alert("Works!: " + responseFormat);
+    } catch (error) {
+      console.log(error);
+      //alert("Error fetching data: " + error);
+    }
+  };
+
+  const count = useRef(0);
+  useEffect(() => {
+    if (count.current !== 0) {
+      updateLeaderboard();
+    }
+    count.current++;
+  }, []);
   
   const columns = [
     {
