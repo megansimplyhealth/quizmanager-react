@@ -110,6 +110,12 @@ const verifyAnswer = async (answer : number) => {
       </div>
 
       <div className="flex gap-10">
+      {index == 0 && (
+      <a href='/leaderboard' className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-orange-600 md:text-3xl lg:text-3xl dark:text-white">LEADERBOARD</a>
+      )}
+      </div>
+
+      <div className="flex gap-10">
       {index !== 0 && (
             <><button onClick={() => verifyAnswer(3)} className="w-1/2 h-full py-10 px-10 bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded">
             {answers.answer3}
