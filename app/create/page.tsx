@@ -7,17 +7,18 @@ import axios, { AxiosError } from 'axios';
 
 
 export default function Create() {
-    const [questionText, setQuestionText] = useState('Question');
-    const [answerOne, setAnswerOne] = useState('Answer One');
-    const [answerTwo, setAnswerTwo] = useState('Answer Two');
-    const [answerThree, setAnswerThree] = useState('Answer Three');
-    const [answerFour, setAnswerFour] = useState('Answer Four');
+    const [questionText, setQuestionText] = useState('');
+    const [answerOne, setAnswerOne] = useState('');
+    const [answerTwo, setAnswerTwo] = useState('');
+    const [answerThree, setAnswerThree] = useState('');
+    const [answerFour, setAnswerFour] = useState('');
     const [correctAnswer, setCorrectAnswer] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [checkInvalid, setCheckInvalid] = useState(true);
+    const [selectedCheckBox, setSelectedCheckBox] = useState<string[]>([]);
 
-    const stopLoading = () => {
-        if (answerOne !== 'Answer One' && answerTwo !== 'Answer Two' && answerThree !== 'Answer Three' && answerFour !== 'Answer Four' && answerOne.length > 0 && answerTwo.length > 0 && answerThree.length > 0 && answerFour.length > 0 && questionText.length > 0 && questionText !== 'Question') {
+    const stopLoading = async () => {
+        if (answerOne.length > 0 && answerTwo.length > 0 && answerThree.length > 0 && answerFour.length > 0 && questionText.length > 0 && correctAnswer !== 0) {
             setIsLoading(false);
           } else {
             setIsLoading(true);
@@ -27,31 +28,31 @@ export default function Create() {
     const questionChanged = async (event: React.ChangeEvent<HTMLInputElement>) => {
         //alert("Works! " + event.target.value);
         setQuestionText(event.target.value);
-        stopLoading();
+        await stopLoading();
     };
 
     const answerOneChanged = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setAnswerOne(event.target.value);
-        stopLoading();
+        await stopLoading();
     };
 
     const answerTwoChanged = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setAnswerTwo(event.target.value);
-        stopLoading();
+        await stopLoading();
     };
 
     const answerThreeChanged = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setAnswerThree(event.target.value);
-        stopLoading();
+        await stopLoading();
     };
 
     const answerFourChanged = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setAnswerFour(event.target.value);
-        stopLoading();
+        await stopLoading();
     };
 
     const insertQuestion = async () => {
-        if (isLoading === false && correctAnswer !== 0) {
+        if (isLoading === false) {
 
             const axios = require('axios');
         
@@ -87,7 +88,17 @@ export default function Create() {
             console.log(error);
             console.log(AxiosError);
         });
-
+        setQuestionText('Question');
+        setQuestionText('');
+        setAnswerOne('');
+        setAnswerTwo('');
+        setAnswerThree('');
+        setAnswerFour('');
+        setCorrectAnswer(0);
+        setIsLoading(true);
+        setCheckInvalid(true);
+        setSelectedCheckBox([]);
+        alert("Question Added! Please add more ot go back to play");
         } else {
             alert("Please Fill Out All Fields!");
         }
@@ -108,7 +119,8 @@ export default function Create() {
             key="questionText"
             type="text"
             label="Please Type Your Question"
-            placeholder={questionText}
+            placeholder="Question Text"
+            value={questionText}
             onChange={questionChanged}
             className="w-[434px]"
             />
@@ -121,8 +133,9 @@ export default function Create() {
           key="answerOne"
           type="text"
           color="primary"
-          label="Please Type Your Answer"
-          placeholder={answerOne}
+          label="Please Type Answer One"
+          placeholder="Answer One"
+          value={answerOne}
           onChange={answerOneChanged}
           className="w-1/2"
         />
@@ -131,8 +144,9 @@ export default function Create() {
           key="answerTwo"
           type="text"
           color="danger"
-          label="Please Type Your Answer"
-          placeholder={answerTwo}
+          label="Please Type Answer Two"
+          value={answerTwo}
+          placeholder="Answer Two"
           onChange={answerTwoChanged}
           className="w-1/2"
         />
@@ -146,8 +160,9 @@ export default function Create() {
           key="answerThree"
           type="text"
           color="warning"
-          label="Please Type Your Answer"
-          placeholder={answerThree}
+          label="Please Type Answer Three"
+          value={answerThree}
+          placeholder="Answer Three"
           onChange={answerThreeChanged}
           className="w-1/2"
         />
@@ -156,8 +171,9 @@ export default function Create() {
           key="answerFour"
           type="text"
           color="secondary"
-          label="Please Type Your Answer"
-          placeholder={answerFour}
+          label="Please Type Answer Four"
+          value={answerFour}
+          placeholder="Answer Four"
           onChange={answerFourChanged}
           className="w-1/2"
         />
@@ -172,16 +188,18 @@ export default function Create() {
         color="success"
         isInvalid={checkInvalid}
         label="Please select which answer is correct"
+        value={selectedCheckBox}
         onValueChange={(value) => {
         setCheckInvalid(value.length !== 1);
         setCorrectAnswer(parseInt(value[0]));
+        setSelectedCheckBox(value);
         stopLoading();
       }}
         >
-        <Checkbox value="1">Answer One</Checkbox>
-        <Checkbox value="2">Answer Two</Checkbox>
-        <Checkbox value="3">Answer Three</Checkbox>
-        <Checkbox value="4">Answer Four</Checkbox>
+        <Checkbox value="1" color="primary">Answer One</Checkbox>
+        <Checkbox value="2" color="danger">Answer Two</Checkbox>
+        <Checkbox value="3" color="warning">Answer Three</Checkbox>
+        <Checkbox value="4" color="secondary">Answer Four</Checkbox>
         </CheckboxGroup>
       </div>
 
