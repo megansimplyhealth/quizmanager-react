@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 
 
+const test = require('dotenv').config()
+console.log(test)
+
 
 
 
