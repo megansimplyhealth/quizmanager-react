@@ -61,7 +61,7 @@ export default function Create() {
             let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: process.env.QUESTION_URL,
+            url: process.env.NEXT_PUBLIC_QUESTION_URL,
             headers: {'Content-Type':'application/json','charset': 'utf-8'},
             data : JSON.stringify({
                 questionText: questionText,

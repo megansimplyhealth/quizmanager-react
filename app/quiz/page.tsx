@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import {Input} from '@nextui-org/react'
 import axios, { AxiosError } from 'axios';
+import { env } from 'process';
 
 export default function Quiz() {
 
@@ -23,12 +24,17 @@ export default function Quiz() {
   
   const axios = require('axios');
 
+  let questionURL = 'http://localhost:5054/Questions'; //process.env.QUESTION_URL;
+
 const updateQuestion = async (index: number) => {
+
+  //alert(questionURL);
+  //console.log(process.env.QUESTION_URL);
 
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: process.env.QUESTION_URL,
+    url: process.env.NEXT_PUBLIC_QUESTION_URL,
     params: {
       questionId: index
     },
@@ -91,7 +97,7 @@ const verifyAnswer = async (answer : number) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: process.env.RESPONSE_URL,
+      url: process.env.NEXT_PUBLIC_RESPONSE_URL,
       headers: {'Content-Type':'application/json','charset': 'utf-8'},
       data : JSON.stringify({
           responseName : name,

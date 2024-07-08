@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue} from "@nextui-org/react";
 
+
 export default function Quiz() {
 
   const [index, setIndex] = useState(1);
@@ -20,7 +21,7 @@ export default function Quiz() {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5054/Responses',
+      url: process.env.NEXT_PUBLIC_RESPONSE_URL,
       headers: { 
       }
     };
