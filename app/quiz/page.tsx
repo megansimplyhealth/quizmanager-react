@@ -16,7 +16,6 @@ export default function Quiz() {
   const [correctAnswer, setCorrectAnswer] = useState(0);
   const [score, setScore] = useState(0);
   const [name, setName] = useState("");
-  //const [start, setStart] = useState(false);
   const [startClick, setStartClick] = useState(false);
   let newDate = new Date();
   var date = newDate.getDate() + "/" + (newDate.getMonth() + 1) + "/" + newDate.getFullYear();
