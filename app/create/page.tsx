@@ -17,9 +17,6 @@ export default function Create() {
     const [checkInvalid, setCheckInvalid] = useState(true);
     const [selectedCheckBox, setSelectedCheckBox] = useState<string[]>([]);
 
-    let responseURL = 'http://localhost:5054/Responses';
-    let questionURL = 'http://localhost:5054/Questions';
-
     const stopLoading = async () => {
         if (answerOne.length > 0 && answerTwo.length > 0 && answerThree.length > 0 && answerFour.length > 0 && questionText.length > 0 && correctAnswer !== 0) {
             setIsLoading(false);
@@ -64,7 +61,7 @@ export default function Create() {
             let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://localhost:5054/Questions',
+            url: process.env.QUESTION_URL,
             headers: {'Content-Type':'application/json','charset': 'utf-8'},
             data : JSON.stringify({
                 questionText: questionText,

@@ -28,7 +28,7 @@ const updateQuestion = async (index: number) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: 'http://localhost:5054/Questions',
+    url: process.env.QUESTION_URL,
     params: {
       questionId: index
     },
@@ -91,7 +91,7 @@ const verifyAnswer = async (answer : number) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5054/Responses',
+      url: process.env.RESPONSE_URL,
       headers: {'Content-Type':'application/json','charset': 'utf-8'},
       data : JSON.stringify({
           responseName : name,
