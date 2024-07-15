@@ -22,8 +22,8 @@ jobs:
       - name: Build And Deploy
         id: builddeploy
         env:
-          NEXT_PUBLIC_RESPONSE_URL: 'http://48.216.194.237/Responses'
-          NEXT_PUBLIC_QUESTION_URL: 'http://48.216.194.237/Questions'
+          NEXT_PUBLIC_RESPONSE_URL: 'http://quizmanagerapi.hqetgkeefghrf0af.eastus.azurecontainer.io/Responses'
+          NEXT_PUBLIC_QUESTION_URL: 'http://quizmanagerapi.hqetgkeefghrf0af.eastus.azurecontainer.io/Questions'
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BRAVE_FOREST_0B2791E0F }}
