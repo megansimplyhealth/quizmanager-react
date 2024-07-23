@@ -18,12 +18,11 @@ export default function Quiz() {
   ]);
 
   const updateLeaderboard = async () => {
-    let config = {
-      method: 'get',
+    const config = {
+      method: 'GET',
       maxBodyLength: Infinity,
-      url: process.env.NEXT_PUBLIC_RESPONSE_URL,
-      headers: { 
-      }
+      url: '/api/response',
+      headers: {},
     };
     //alert("Works!");
     try{
@@ -102,7 +101,7 @@ export default function Quiz() {
 
       <div className="flex gap-10">
       
-      <a href='/quiz' className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-red-600 md:text-3xl lg:text-3xl dark:text-white">BACK</a>
+      <a href='/pages/quiz' className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-red-600 md:text-3xl lg:text-3xl dark:text-white">BACK</a>
       
       </div>
 
