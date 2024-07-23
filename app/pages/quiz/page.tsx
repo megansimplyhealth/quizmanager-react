@@ -24,22 +24,19 @@ export default function Quiz() {
   
   const axios = require('axios');
 
-  let questionURL = 'http://localhost:5054/Questions'; //process.env.QUESTION_URL;
-
 const updateQuestion = async (index: number) => {
 
   //alert(questionURL);
   //console.log(process.env.QUESTION_URL);
 
-  let config = {
-    method: 'get',
+  const config = {
+    method: 'GET',
     maxBodyLength: Infinity,
-    url: process.env.NEXT_PUBLIC_QUESTION_URL,
+    url: '/api/question',
     params: {
-      questionId: index
+      questionId: index,
     },
-    headers: { 
-    }
+    headers: {},
   };
   
   try{
@@ -95,9 +92,9 @@ const verifyAnswer = async (answer : number) => {
   const sendResponse = async () => {
     const axios = require('axios');
     let config = {
-      method: 'post',
+      method: 'POST',
       maxBodyLength: Infinity,
-      url: process.env.NEXT_PUBLIC_RESPONSE_URL,
+      url: '/api/question',
       headers: {'Content-Type':'application/json','charset': 'utf-8'},
       data : JSON.stringify({
           responseName : name,
@@ -177,7 +174,7 @@ const verifyAnswer = async (answer : number) => {
 
       <div className="flex gap-10">
       {(index == 0 && startClick === false) && (
-      <a href='/leaderboard' className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-orange-600 md:text-3xl lg:text-3xl dark:text-white">LEADERBOARD</a>
+      <a href='/pages/leaderboard' className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-orange-600 md:text-3xl lg:text-3xl dark:text-white">LEADERBOARD</a>
       )}
       </div>
 
@@ -193,7 +190,7 @@ const verifyAnswer = async (answer : number) => {
 
       <div className="flex gap-10">
       
-      <a href='http://localhost:3000/' className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-red-600 md:text-3xl lg:text-3xl dark:text-white">BACK</a>
+      <a href='/' className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-red-600 md:text-3xl lg:text-3xl dark:text-white">BACK</a>
       
       </div>
 

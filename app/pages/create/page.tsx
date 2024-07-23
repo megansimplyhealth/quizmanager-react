@@ -58,12 +58,12 @@ export default function Create() {
         
             //alert("Question Added!" + " " + questionText + " " + answerOne + " " + answerTwo + " " + answerThree + " " + answerFour + " " + correctAnswer);
 
-            let config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: process.env.NEXT_PUBLIC_QUESTION_URL,
-            headers: {'Content-Type':'application/json','charset': 'utf-8'},
-            data : JSON.stringify({
+            const config = {
+              method: 'POST',
+              maxBodyLength: Infinity,
+              url: '/api/question',
+              headers: { 'Content-Type': 'application/json', 'charset': 'utf-8' },
+              data : JSON.stringify({
                 questionText: questionText,
                 answerOne: answerOne,
                 answerTwo: answerTwo,
@@ -215,7 +215,7 @@ export default function Create() {
 
       </div>
 
-      <a href='http://localhost:3000/' className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-red-600 md:text-3xl lg:text-3xl dark:text-white">BACK</a>
+      <a href='/' className="mb-2 text-2xl font-extrabold leading-none tracking-tight text-red-600 md:text-3xl lg:text-3xl dark:text-white">BACK</a>
     </main>
   );
 }
